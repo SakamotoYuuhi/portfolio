@@ -1,0 +1,31 @@
+version: '3'
+services:
+  # サービス名は自由に設定
+  # 苦戦NOTE:dockerはディレクトリ名を全てひらがなにするとエラーが吐かれる
+  #         今回の場合カレントディレクトリ名を「ポートフォリオ」としていたせいでエラー
+  #         全てアルファベットにするか、一部のアルファベットにする必要がある
+  django:
+    # カレントディレクトリから`Dockerfile`を探す
+    build: 
+      context: .
+    # コンテナ名の設定
+    container_name: django
+    # イメージ名の設定
+    # 補足NOTE:イメージ名は大文字に対応していない
+    image: learning_sns
+    # サービス起動後に入力されるコマンドを設定
+    # 苦戦NOTE:runserverを実行するためには作業ディレクトリ（docker-compose.ymlファイル参照）配下に
+    #         manage.pyをおく必要がある
+    command: python manage.py runserver 0.0.0.0:8000
+    # データを永続化させる場合の設定。`host:container`でパスを記載
+    volumes:
+      - ./Application/:/portfolio/Application
+    # 開放するポートを指定。`host:container`でポートを記載
+    ports:
+      - 8000:8000
+    # 環境変数を指定
+    environment:
+      # 1ならデバックモード
+      - DEBUG=1
+      # setting.pyに記載されているSECRET_KEYを記入
+      - SECRET_KEY=hoge

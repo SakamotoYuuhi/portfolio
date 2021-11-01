@@ -1,0 +1,6 @@
+今回このWebアプリを開発にあたって、自分が使ったことのない技術をメモ
+Docker
+Docker-compose
+React
+Figma
+Circle CI/CD

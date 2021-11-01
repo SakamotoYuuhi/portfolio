@@ -1,0 +1,4 @@
+# アプリの依存関係が仮想環境/ホストマシンからコンテナーに確実に移植されるようにするには、ターミナルで「pip freeze > requirements.txt」を実行してこのファイルを上書きします
+django==3.2
+djangorestframework==3.12.4
+django-filter==21.1
