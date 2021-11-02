@@ -16,6 +16,9 @@ services:
     # サービス起動後に入力されるコマンドを設定
     # 苦戦NOTE:runserverを実行するためには作業ディレクトリ（docker-compose.ymlファイル参照）配下に
     #         manage.pyをおく必要がある
+    # 苦戦NOTE:カレントディレクトリ（Application）とその親ディレクトリ（portfolio）に.gitファイルを持たせると
+    #         カレントディレクトリはGithubにプッシュできない。またDocker-composeではmanage.pyが
+    #         operation not permittedエラーでDjangoが起動できなくなる。
     command: python manage.py runserver 0.0.0.0:8000
     # データを永続化させる場合の設定。`host:container`でパスを記載
     volumes:
