@@ -1,5 +1,5 @@
 # 公式からpython3.9 on alpine linuxイメージをpull
-FROM python:3.9-alpine
+FROM python:3.9-buster
 
 # 環境変数を設定
 # Pythonがpyc filesとdiscへ書き込むことを防ぐ
@@ -19,7 +19,7 @@ RUN pip install --upgrade pip && \
 # PipfileからパッケージをインストールしてDjango環境を構築
 # NOTE:オプションコマンド
 #      --skip-lock:Pipfile.lockを無視して
-#      --system:Pipfileからパッケージを読み込み
-#      --dev:開発環境にのみ反映
+#      --system:Pipfileから、仮想環境ではなくデフォルトのPythonにインストール
+#      --dev:dev-packageもインストール
 # 苦戦NOTE:読み込むPipfileは頭文字が大文字のPでないと読み込んでくれない
 RUN pipenv install --skip-lock --system --dev

@@ -1,5 +1,24 @@
 version: '3'
 services:
+  # 苦戦NOTE:DjangoとMySQLを接続するためにはMySQLの起動を優先させる
+  #         そのため、このファイルではDBを先に記述しておく必要がある
+  db:
+    container_name: mysql_learning_sns
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: ${MYSQL_ALLOW_EMPTY_PASSWORD}
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3306:3306
+    volumes:
+      # MySQLのデータを永続化
+      - ./mysql:/var/lib/mysql
+    # MySQLのデフォルト文字コードがlatin1のため、utf8に変換
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
   # サービス名は自由に設定
   # 苦戦NOTE:dockerはディレクトリ名を全てひらがなにするとエラーが吐かれる
   #         今回の場合カレントディレクトリ名を「ポートフォリオ」としていたせいでエラー
@@ -8,18 +27,19 @@ services:
     # カレントディレクトリから`Dockerfile`を探す
     build: 
       context: .
+      dockerfile: ./Dockerfile
     # コンテナ名の設定
-    container_name: django
+    container_name: django_learning_sns
     # イメージ名の設定
     # 補足NOTE:イメージ名は大文字に対応していない
-    image: learning_sns
+    # image: learning_sns
     # サービス起動後に入力されるコマンドを設定
     # 苦戦NOTE:runserverを実行するためには作業ディレクトリ（docker-compose.ymlファイル参照）配下に
     #         manage.pyをおく必要がある
     # 苦戦NOTE:カレントディレクトリ（Application）とその親ディレクトリ（portfolio）に.gitファイルを持たせると
     #         カレントディレクトリはGithubにプッシュできない。またDocker-composeではmanage.pyが
     #         operation not permittedエラーでDjangoが起動できなくなる。
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     # データを永続化させる場合の設定。`host:container`でパスを記載
     volumes:
       - ./Application/:/portfolio/Application
@@ -29,6 +49,8 @@ services:
     # 環境変数を指定
     environment:
       # 1ならデバックモード
-      - DEBUG=1
+      - DEBUG=${DEBUG}
       # setting.pyに記載されているSECRET_KEYを記入
-      - SECRET_KEY=hoge
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - db
