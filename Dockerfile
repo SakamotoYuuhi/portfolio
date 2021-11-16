@@ -14,6 +14,7 @@ WORKDIR /portfolio/Application/
 
 # Pipenvをインストール
 RUN pip install --upgrade pip && \
+    pip install -r ../requirements.txt && \
     pip install pipenv
 
 # PipfileからパッケージをインストールしてDjango環境を構築

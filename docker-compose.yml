@@ -43,6 +43,9 @@ services:
     # データを永続化させる場合の設定。`host:container`でパスを記載
     volumes:
       - ./Application/:/portfolio/Application
+    # 環境変数に設定するファイル
+    env_file:
+      - ./Application/config/.env
     # 開放するポートを指定。`host:container`でポートを記載
     ports:
       - 8000:8000
