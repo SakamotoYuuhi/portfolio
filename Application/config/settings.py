@@ -14,25 +14,25 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# 次のようにプロジェクト内にパスを作成します：BASE_DIR / 'subdir'。
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # .envの読み込み
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+load_dotenv(os.path.join(BASE_DIR, 'config/.env'))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+# クイックスタート開発設定-本番環境には不適切
+# https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/を参照してください
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# セキュリティ警告：本番環境で使用される秘密鍵は秘密にしてください。
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=0))
+# セキュリティ警告：本番環境でデバッグをオンにして実行しないでください。
+DEBUG = int(os.getenv('DJANGO_DEBUG', default=0))
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
-# Application definition
+# アプリケーションの定義
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -87,8 +87,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mysql_learning_sns',
-        'USER': os.environ.get('MYSQL_USER'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'USER': 'user', #os.getenv('DJANGO_MYSQL_USER'),
+        'PASSWORD': 'password', #os.getenv('DJANGO_MYSQL_PASSWORD'),
         'HOST': 'db',
         'PORT': 3306,
     }

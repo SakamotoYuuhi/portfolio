@@ -1,5 +1,5 @@
-# 公式からpython3.9 on alpine linuxイメージをpull
-FROM python:3.9-buster
+# 公式からpython3.9イメージをpull
+FROM python:3.9
 
 # 環境変数を設定
 # Pythonがpyc filesとdiscへ書き込むことを防ぐ
